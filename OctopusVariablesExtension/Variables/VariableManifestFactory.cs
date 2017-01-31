@@ -12,22 +12,22 @@ using Octopus.Core.Model.Tenants;
 using Octopus.Core.Model.Users;
 using Octopus.Core.Model.Variables;
 using Octopus.Core.Resources;
+using Octopus.Diagnostics;
 using Octopus.Server.Extensibility.Authentication.HostServices;
 using Octopus.Server.Extensibility.HostServices.Web;
 using Octopus.Server.Orchestration.Deploy;
 using Octopus.Server.Orchestration.Deploy.Manifest;
 using Octopus.Server.Orchestration.Tags;
 using Octopus.Server.Web;
-using Octopus.Diagnostics;
 
 namespace OctopusVariableViewerExtension.Variables
 {
     public class VariableManifestFactory : IVariableManifestFactory
     {
         private readonly IDeploymentManifestFactory _deploymentManifestFactory;
+        private readonly ILog _log;
         private readonly IRelationalStore _store;
         private readonly IWebPortalConfigurationStore _webPortalConfigurationStore;
-        private readonly ILog _log;
 
         public VariableManifestFactory(ILog log, IDeploymentManifestFactory deploymentManifestFactory, IWebPortalConfigurationStore webPortalConfigurationStore, IRelationalStore store)
         {
@@ -45,6 +45,7 @@ namespace OctopusVariableViewerExtension.Variables
                 return transaction.LoadRequired<VariableSet>(deployment.ManifestVariableSetId).Variables;
             }
         }
+
         public VariableCollection GetVariableManifest(NancyContext context, string releaseId, string environmentId, string tenantId)
         {
             using (var transaction = _store.BeginTransaction())
@@ -135,7 +136,7 @@ namespace OctopusVariableViewerExtension.Variables
 
         private static User GetUser(NancyContext context, IRelationalTransaction transaction)
         {
-            return transaction.LoadRequired<User>(((IOctopusPrincipal)context.CurrentUser).Id);
+            return transaction.LoadRequired<User>(((IOctopusPrincipal) context.CurrentUser).Id);
         }
 
         private static VariableCollection GetProjectVariables(IRelationalTransaction transaction, Release release, Project project)
@@ -159,7 +160,7 @@ namespace OctopusVariableViewerExtension.Variables
                     {
                         Id = v.MissingVariableTemplate.Id,
                         Name = v.MissingVariableTemplate.VariableName,
-                        Scope = new ScopeSpecification { { ScopeField.Tenant, tenantId } },
+                        Scope = new ScopeSpecification {{ScopeField.Tenant, tenantId}},
                         Value = v.Value.Value,
                         IsSensitive = v.MissingVariableTemplate.IsSensitive
                     };
@@ -235,6 +236,7 @@ namespace OctopusVariableViewerExtension.Variables
 
             return source;
         }
+
         private static void AddTemplates(VariableCollection variableCollection, IHaveTemplates owner)
         {
             foreach (var variableDeclaration in owner.Templates

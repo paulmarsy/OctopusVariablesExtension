@@ -2,6 +2,7 @@
 using Nancy;
 using Octopus.Server.Extensibility.Extensions;
 using Octopus.Server.Extensibility.HostServices.Web;
+using OctopusVariableViewerExtension.Variables;
 using OctopusVariableViewerExtension.Web;
 
 namespace OctopusVariableViewerExtension
@@ -11,8 +12,8 @@ namespace OctopusVariableViewerExtension
     {
         public void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<Variables.VariableManifestFactory>()
-                .As<Variables.IVariableManifestFactory>()
+            builder.RegisterType<VariableManifestFactory>()
+                .As<IVariableManifestFactory>()
                 .InstancePerDependency();
 
             builder.RegisterType<OctopusVariablesModule>()

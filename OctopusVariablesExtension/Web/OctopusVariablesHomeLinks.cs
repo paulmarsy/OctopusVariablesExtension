@@ -9,10 +9,10 @@ namespace OctopusVariableViewerExtension.Web
         {
             return new Dictionary<string, string>
             {
-                { "VariableDeploymentManifest", "/api/variables/deployment/{id}" },
-                { "VariableDeploymentResolution", "/api/variables/deployment/{id}/eval{/variable}" },
-                { "VariableTestManifest", "/api/variables/test/{releaseId}/{environmentId}{/tenantId}" },
-                { "VariableTestResolution", "/api/variables/test/{releaseId}/{environmentId}{/tenantId}/eval{/variable}" }
+                {"VariableDeploymentManifest", "/api/variables/deployment/{id}"},
+                {"VariableDeploymentResolution", "/api/variables/deployment/{id}/eval{/variable}"},
+                {"VariableTestManifest", "/api/variables/test/{releaseId}/{environmentId}{/tenantId}"},
+                {"VariableTestResolution", "/api/variables/test/{releaseId}/{environmentId}{/tenantId}/eval{/variable}"}
             };
         }
     }
